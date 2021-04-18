@@ -7,10 +7,10 @@ export const initializeStore = () => {
 
     db.version(1).stores(
         {
-            comments: "id",
-            photos: "id",
-            todos: "id",
-            posts: "id"
+            comments: "++id, title",
+            photos: "++id, title",
+            todos: "++id, title",
+            posts: "++id, title"
         })
 
     db.open().catch(error => {

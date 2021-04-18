@@ -4,9 +4,11 @@ import { initializeStore } from '../config/db'
 
 
 function Container() {
+    // initialize the db instance
     const db = initializeStore()
 
 
+    // set up the states
     const [currentTime, setCurrentTime] = useState(null)
     const [start1, setStart1] = useState(null)
     const [start2, setStart2] = useState(null)
@@ -28,6 +30,7 @@ function Container() {
     const [endSave3, setEndSave3] = useState(null)
     const [endSave4, setEndSave4] = useState(null)
 
+    // on first render, the endpoints will be called after 5sec
     useEffect(() => {
 
         setTimeout(() => {
@@ -40,6 +43,7 @@ function Container() {
 
     }, [])
 
+    // to set up the current unix timer
     useEffect(() => {
         let timerId = setTimeout(() => {
             tick()
@@ -50,13 +54,12 @@ function Container() {
         }
     })
 
+    // update currentTime state every second
     const tick = () => setCurrentTime(Date.now())
 
-
-
+    // function to make the api call
     const fetchData = (store, url, time, setStartTime, setEndTime, setStartSave, setEndSave) => {
-        let currTime = Date.now()
-        setStartTime(time ? time : currTime);
+        setStartTime(time);
         fetch(url)
             .then(async (response) => {
                 setEndTime(Date.now())
@@ -68,28 +71,31 @@ function Container() {
             .catch(error => error)
     }
 
+    // function to save the data in indexedDB
     const saveDataInDB = (store, data) => {
         db[store].add({
-            id: store,
+            title: store,
             data
         }).then(() => Date.now())
             .catch(error => error)
     }
 
 
+    // button click handler
     const handleButtonClick = ({ target }) => {
+        const time = Date.now()
         switch (target.id) {
             case "1":
-                fetchData("comments", 'https://jsonplaceholder.typicode.com/comments', setStart1, setEnd1, setStartSave1, setEndSave1)
+                fetchData("comments", 'https://jsonplaceholder.typicode.com/comments', time, setStart1, setEnd1, setStartSave1, setEndSave1)
                 break;
             case "2":
-                fetchData("photos", 'https://jsonplaceholder.typicode.com/photos', setStart2, setEnd2, setStartSave2, setEndSave2)
+                fetchData("photos", 'https://jsonplaceholder.typicode.com/photos', time, setStart2, setEnd2, setStartSave2, setEndSave2)
                 break;
             case "3":
-                fetchData("todos", 'https://jsonplaceholder.typicode.com/todos', setStart3, setEnd3, setStartSave3, setEndSave3)
+                fetchData("todos", 'https://jsonplaceholder.typicode.com/todos', time, setStart3, setEnd3, setStartSave3, setEndSave3)
                 break;
             case "4":
-                fetchData("posts", 'https://jsonplaceholder.typicode.com/posts', setStart4, setEnd4, setStartSave4, setEndSave4)
+                fetchData("posts", 'https://jsonplaceholder.typicode.com/posts', time, setStart4, setEnd4, setStartSave4, setEndSave4)
                 break;
             default:
                 break;
@@ -108,14 +114,14 @@ function Container() {
                 <TimeStamp start={start4} end={end4} startSave={startSave4} endSave={endSave4}></TimeStamp>
             </div>
 
-            <div>
-                <button id="1" onClick={handleButtonClick}>Button 1</button>
-                <button id="2" onClick={handleButtonClick}>Button 2</button>
-                <button id="3" onClick={handleButtonClick}>Button 3</button>
-                <button id="4" onClick={handleButtonClick}>Button 4</button>
+            <div className="button-container">
+                <button className="button" id="1" onClick={handleButtonClick}>Button 1</button>
+                <button className="button" id="2" onClick={handleButtonClick}>Button 2</button>
+                <button className="button" id="3" onClick={handleButtonClick}>Button 3</button>
+                <button className="button" id="4" onClick={handleButtonClick}>Button 4</button>
             </div>
 
-            <div>{currentTime}</div>
+            <button>{currentTime}</button>
         </div>
     )
 }

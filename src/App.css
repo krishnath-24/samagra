@@ -7,3 +7,18 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.button {
+  width: 40%;
+  height: 30px;
+  margin-bottom: 15px;
+  margin-right: 2%;
+
+}
+
+.button-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
