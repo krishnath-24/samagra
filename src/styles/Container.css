@@ -22,3 +22,8 @@
   flex-wrap: wrap;
   justify-content: space-evenly;
 }
+
+.unix-time {
+  width: 30%;
+  height: 30px;
+}
