@@ -1,0 +1,12 @@
+.timestamp {
+  height: 300px;
+  width: 40%;
+  border: 1px solid #ccc;
+  margin-right: 2%;
+  margin: 0 auto;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: spcae-evenly;
+  justify-content: space-evenly;
+}
